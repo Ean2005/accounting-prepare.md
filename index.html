@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>會計學核心筆記與解題 SOP 知識庫 | Accounting Wiki</title>
+  <style>
+    :root {
+      --bg: #F8FAFC; --surface: #FFFFFF; --text-primary: #0F172A;
+      --text-secondary: #334155; --text-muted: #64748B; --primary: #1E40AF;
+      --primary-soft: #EFF6FF; --accent-green: #047857; --accent-green-soft: #ECFDF5;
+      --border: #E2E8F0; --entry-bg: #F1F5F9;
+      --shadow: 0 4px 6px -1px rgba(15, 23, 42, 0.05), 0 2px 4px -2px rgba(15, 23, 42, 0.04);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, "Noto Sans TC", sans-serif;
+      background-color: var(--bg); color: var(--text-primary);
+      line-height: 1.7; display: flex; min-height: 100vh;
+    }
+    .sidebar {
+      width: 300px; background: var(--surface); border-right: 1px solid var(--border);
+      padding: 1.75rem 1.25rem; position: fixed; height: 100vh; overflow-y: auto;
+      display: flex; flex-direction: column; z-index: 10;
+    }
+    .brand { display: flex; align-items: center; gap: 0.65rem; font-size: 1.15rem; font-weight: 800; color: var(--text-primary); margin-bottom: 0.3rem; }
+    .brand-icon { background: var(--primary); color: white; width: 32px; height: 32px; border-radius: 8px; display: inline-flex; align-items: center; justify-content: center; font-size: 0.85rem; font-weight: 700; }
+    .brand-sub { font-size: 0.82rem; color: var(--text-muted); margin-bottom: 1.25rem; }
+    .search-box { margin-bottom: 1.25rem; }
+    .search-box input { width: 100%; padding: 0.6rem 0.85rem; border: 1px solid var(--border); border-radius: 8px; font-size: 0.88rem; background: var(--bg); color: var(--text-primary); outline: none; }
+    .search-box input:focus { border-color: var(--primary); background: var(--surface); }
+    .nav-section-title { font-size: 0.76rem; font-weight: 700; letter-spacing: 0.05em; color: var(--text-muted); margin: 1.1rem 0 0.45rem 0.5rem; }
+    .nav-list { list-style: none; }
+    .nav-list li { margin-bottom: 0.25rem; }
+    .nav-link { display: block; padding: 0.5rem 0.75rem; border-radius: 8px; color: var(--text-secondary); text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: all 0.15s ease; }
+    .nav-link:hover { background: var(--bg); color: var(--text-primary); }
+    .nav-link.active { background: var(--primary-soft); color: var(--primary); font-weight: 700; }
+    .main-content { margin-left: 300px; flex: 1; padding: 2.5rem 3.5rem; max-width: 1020px; }
+    .hero-banner { background: linear-gradient(135deg, #0F172A 0%, #1E40AF 100%); color: white; padding: 2.25rem 2.5rem; border-radius: 16px; margin-bottom: 1.75rem; box-shadow: var(--shadow); }
+    .hero-banner h1 { font-size: 1.8rem; margin-bottom: 0.5rem; font-weight: 800; }
+    .hero-banner p { color: #E2E8F0; font-size: 0.96rem; max-width: 720px; }
+    .filter-bar { display: flex; gap: 0.5rem; margin-bottom: 1.75rem; flex-wrap: wrap; }
+    .filter-btn { padding: 0.45rem 1rem; border-radius: 999px; border: 1px solid var(--border); background: var(--surface); color: var(--text-secondary); font-size: 0.86rem; font-weight: 600; cursor: pointer; transition: all 0.15s; }
+    .filter-btn:hover, .filter-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
+    .wiki-card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 2rem 2.25rem; margin-bottom: 1.75rem; box-shadow: var(--shadow); scroll-margin-top: 2rem; }
+    .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; }
+    .badge { background: var(--primary-soft); color: var(--primary); font-size: 0.78rem; font-weight: 700; padding: 0.25rem 0.75rem; border-radius: 999px; }
+    .badge.cost { background: var(--accent-green-soft); color: var(--accent-green); }
+    .badge.audit { background: #FEF3C7; color: #B45309; }
+    .date { font-size: 0.82rem; color: var(--text-muted); }
+    .wiki-card h2 { font-size: 1.4rem; margin-bottom: 0.6rem; color: var(--text-primary); }
+    .intro { color: var(--text-secondary); margin-bottom: 1.25rem; font-size: 0.96rem; }
+    .sop-box { background: #F8FAFC; border: 1px solid var(--border); border-radius: 10px; padding: 1.15rem 1.4rem; margin-bottom: 1.25rem; }
+    .sop-box h4 { font-size: 0.92rem; color: var(--primary); margin-bottom: 0.6rem; }
+    .sop-box ol, .sop-box ul { padding-left: 1.25rem; color: var(--text-secondary); font-size: 0.93rem; }
+    .sop-box li { margin-bottom: 0.4rem; }
+    .entry-box { border-left: 4px solid var(--primary); background: var(--entry-bg); border-radius: 0 10px 10px 0; padding: 1.1rem 1.35rem; margin-top: 1rem; }
+    .entry-title { font-size: 0.82rem; font-weight: 700; color: var(--primary); margin-bottom: 0.45rem; }
+    .entry-content { font-family: "JetBrains Mono", "Consolas", monospace, "Noto Sans TC"; font-size: 0.9rem; color: var(--text-primary); white-space: pre-wrap; word-break: break-word; line-height: 1.65; }
+    .wiki-table { width: 100%; border-collapse: collapse; margin-top: 1rem; font-size: 0.9rem; }
+    .wiki-table th, .wiki-table td { border: 1px solid var(--border); padding: 0.7rem 0.9rem; text-align: left; vertical-align: top; }
+    .wiki-table th { background: var(--bg); font-weight: 700; color: var(--text-primary); }
+    footer { text-align: center; padding: 2rem 0 1rem; color: var(--text-muted); font-size: 0.85rem; border-top: 1px solid var(--border); margin-top: 3rem; }
+    @media (max-width: 768px) {
+      body { flex-direction: column; }
+      .sidebar { width: 100%; height: auto; position: relative; border-right: none; border-bottom: 1px solid var(--border); }
+      .main-content { margin-left: 0; padding: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <aside class="sidebar">
+    <div class="brand">
+      <span class="brand-icon">ACCT</span>
+      <span>會計學核心知識庫</span>
+    </div>
+    <p class="brand-sub">公報解析 ‧ 解題 SOP ‧ 分錄釋例</p>
+
+    <div class="search-box">
+      <input type="text" id="searchInput" placeholder="搜尋公報、分錄或關鍵字...">
+    </div>
+
+    <div class="nav-section-title">中級會計學 (Intermediate)</div>
+    <ul class="nav-list">
+      <li><a href="#ifrs15-revenue" class="nav-link active">01. IFRS 15 客戶合約之收入認列</a></li>
+      <li><a href="#ifrs9-financial-assets" class="nav-link">02. IFRS 9 金融資產分類與衡量</a></li>
+    </ul>
+
+    <div class="nav-section-title">成本與管理會計 (Cost & Managerial)</div>
+    <ul class="nav-list">
+      <li><a href="#process-costing" class="nav-link">03. 分步成本制：約當產量計算 SOP</a></li>
+      <li><a href="#variance-analysis" class="nav-link">04. 標準成本制：差異分析拆解架構</a></li>
+    </ul>
+
+    <div class="nav-section-title">審計學 (Auditing)</div>
+    <ul class="nav-list">
+      <li><a href="#audit-risk-model" class="nav-link">05. 查核風險模型與重大性評估</a></li>
+    </ul>
+  </aside>
+
+  <main class="main-content">
+    <section class="hero-banner">
+      <h1>會計學核心筆記與解題 SOP 知識庫</h1>
+      <p>系統化整理中級會計學（IFRS 公報）、成本與管理會計學計算架構、以及審計學查核準則，將複雜條文轉化為結構化的解題決策樹與標準分錄。</p>
+    </section>
+
+    <div class="filter-bar">
+      <button class="filter-btn active" data-filter="all">全部章節 (5)</button>
+      <button class="filter-btn" data-filter="中級會計學">中級會計學</button>
+      <button class="filter-btn" data-filter="成本與管理會計">成本與管理會計</button>
+      <button class="filter-btn" data-filter="審計學">審計學</button>
+    </div>
+
+    <article class="wiki-card" id="ifrs15-revenue" data-category="中級會計學">
+      <div class="card-header">
+        <span class="badge">中級會計學</span>
+        <span class="date">更新日期：2026-11-16</span>
+      </div>
+      <h2>01. IFRS 15 客戶合約之收入：五步驟認列 SOP</h2>
+      <p class="intro">IFRS 15 核心原則在於「企業應於移轉商品或勞務之控制予客戶而滿足履約義務時認列收入」，金額應反映預期有權取得之對價。</p>
+
+      <div class="sop-box">
+        <h4>📌 收入認列五步驟解題 SOP</h4>
+        <ol>
+          <li><strong>辨認客戶合約</strong>：確認雙方已核准合約、權利義務明確、具商業實質且對價很有可能收回。</li>
+          <li><strong>辨認合約中之履約義務</strong>：判斷商品或勞務是否「可區分」（客戶可單獨獲益 + 與合約中其他承諾可單獨辨認）。</li>
+          <li><strong>決定交易價格</strong>：考量變動對價（期望值法或最可能金額法，受限於高度很有可能不迴轉）、重大財務組成部分（折現）與非現金對價。</li>
+          <li><strong>分攤交易價格至各履約義務</strong>：依各履約義務之「單獨售價（SSP）相對比例」進行分攤。</li>
+          <li><strong>於滿足履約義務時認列收入</strong>：判斷屬於「隨時間逐步滿足」或「於某一時點滿足（控制移轉時）」。</li>
+        </ol>
+      </div>
+
+      <div class="entry-box">
+        <div class="entry-title">📊 標準分錄釋例：預收款項與控制移轉</div>
+        <div class="entry-content">【簽約預收客戶款項時（尚未移轉控制）】
+借：現  金                      $100,000
+    貸：合約負債（預收貨款）          $100,000
+
+【商品控制移轉予客戶、滿足履約義務時】
+借：合約負債                      $100,000
+    貸：銷貨收入                      $100,000</div>
+      </div>
+    </article>
+
+    <article class="wiki-card" id="ifrs9-financial-assets" data-category="中級會計學">
+      <div class="card-header">
+        <span class="badge">中級會計學</span>
+        <span class="date">更新日期：2026-11-16</span>
+      </div>
+      <h2>02. IFRS 9 金融資產分類與衡量決策樹</h2>
+      <p class="intro">金融資產之分類取決於「企業管理金融資產之經營模式（Business Model）」以及「合約現金流量特性（SPPI 測試：是否完全為支付本金及流通在外本金之利息）」。</p>
+
+      <table class="wiki-table">
+        <thead>
+          <tr>
+            <th>分類項目</th>
+            <th>判斷條件（經營模式 + SPPI）</th>
+            <th>手續費處理</th>
+            <th>期末評價與處分損益</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>按攤銷後成本衡量 (AC)</strong></td>
+            <td>通過 SPPI 測試 + 經營模式為「收取合約現金流量」。</td>
+            <td>計入原始認列成本（調整有效利率）。</td>
+            <td>採有效利息法攤銷；不認列公允價值變動；處分損益計入當期損益。</td>
+          </tr>
+          <tr>
+            <td><strong>透過其他綜合損益按公允價值衡量—債務工具 (FVOCI-債)</strong></td>
+            <td>通過 SPPI 測試 + 經營模式為「收取合約現金流量及出售」。</td>
+            <td>計入原始認列成本。</td>
+            <td>攤銷與減損計入損益；公允價值變動計入 OCI，<strong>處分時須重分類（Recycle）至當期損益</strong>。</td>
+          </tr>
+          <tr>
+            <td><strong>透過其他綜合損益按公允價值衡量—權益工具 (FVOCI-股)</strong></td>
+            <td>非持有供交易之股票投資，且於原始認列時作不可撤銷之指定。</td>
+            <td>計入原始認列成本。</td>
+            <td>公允價值變動計入 OCI；<strong>處分時直接轉入保留盈餘，不得重分類至損益</strong>（惟股利收入計入損益）。</td>
+          </tr>
+          <tr>
+            <td><strong>透過損益按公允價值衡量 (FVTPL)</strong></td>
+            <td>未通過 SPPI、持有供交易、或未指定為 FVOCI 之股票投資。</td>
+            <td>直接認列為當期費用（手續費費用）。</td>
+            <td>期末公允價值變動直接計入當期損益（評價損益）。</td>
+          </tr>
+        </tbody>
+      </table>
+    </article>
+
+    <article class="wiki-card" id="process-costing" data-category="成本與管理會計">
+      <div class="card-header">
+        <span class="badge cost">成本與管理會計</span>
+        <span class="date">更新日期：2026-11-16</span>
+      </div>
+      <h2>03. 分步成本制 (Process Costing)：約當產量計算五步驟 SOP</h2>
+      <p class="intro">分步成本制適用於大量連續生產之產業。解題關鍵在於區分「加權平均法」與「先進先出法（FIFO）」對期初在製品（WIP）完工程度的處理差異，以及正常損壞品與非常損壞品的成本歸屬。</p>
+
+      <div class="sop-box">
+        <h4>📌 成本生產報告書編製五步驟</h4>
+        <ol>
+          <li><strong>實體數量追蹤</strong>：確認「期初在製品 + 本期投入 = 本期完工轉出 + 期末在製品 + 損壞品（正常/非常）」。</li>
+          <li><strong>計算約當產量 (Equivalent Units)</strong>：依直接原料（投入時點）與加工成本（均勻發生）分別計算。</li>
+          <li><strong>彙總待分配總成本</strong>：加權平均法包含「期初 WIP 成本 + 本期投入成本」；FIFO 單位成本分子僅含「本期投入成本」。</li>
+          <li><strong>計算單位約當成本</strong>：待分配成本 ÷ 約當產量。</li>
+          <li><strong>成本分配</strong>：將總成本分攤至「完工轉出製品（含正常損壞分攤）」、「期末在製品」與「非常損壞損失（期間費用）」。</li>
+        </ol>
+      </div>
+
+      <div class="entry-box">
+        <div class="entry-title">📊 加權平均法 vs. 先進先出法 (FIFO) 速算公式對照</div>
+        <div class="entry-content">【加權平均法約當產量】
+＝ 本期完工轉出數量 ＋ 期末 WIP 約當量 ＋ 正常損壞約當量 ＋ 非常損壞約當量
+
+【先進先出法 (FIFO) 約當產量】
+＝ 加權平均法約當產量 － 期初 WIP 於上期已完工之約當量
+（單位成本僅以「本期投入成本」除以「FIFO 本期約當產量」）</div>
+      </div>
+    </article>
+
+    <article class="wiki-card" id="variance-analysis" data-category="成本與管理會計">
+      <div class="card-header">
+        <span class="badge cost">成本與管理會計</span>
+        <span class="date">更新日期：2026-11-16</span>
+      </div>
+      <h2>04. 標準成本制：直接原料與直接人工差異分析架構</h2>
+      <p class="intro">透過建立三欄式分析架構（實際成本、彈性預算基礎、標準成本分攤），可快速拆解價格差異（Price/Rate Variance）與數量／效率差異（Quantity/Efficiency Variance）。</p>
+
+      <div class="entry-box">
+        <div class="entry-title">📊 三欄式差異分析通用模型（以直接原料為例）</div>
+        <div class="entry-content">(1) 實際投入成本：AQ × AP
+(2) 實際投入 × 標準單價：AQ × SP
+(3) 實際產出下允許之標準投入 × 標準單價：SQ × SP
+
+● 價格差異 (Price Variance) ＝ (1) － (2) ＝ AQ × (AP － SP)
+● 數量差異 (Quantity Variance) ＝ (2) － (3) ＝ SP × (AQ － SQ)
+
+※ 若區分購料與領用時點，購料價差以「實際購買量 (AQp)」計算，材料數量差異以「實際領用量 (AQu)」計算。
+※ 結果為正數代表實際大於標準，屬「不利差異 (U)」；負數則為「有利差異 (F)」。</div>
+      </div>
+    </article>
+
+    <article class="wiki-card" id="audit-risk-model" data-category="審計學">
+      <div class="card-header">
+        <span class="badge audit">審計學</span>
+        <span class="date">更新日期：2026-11-16</span>
+      </div>
+      <h2>05. 查核風險模型 (Audit Risk Model) 與重大性評估邏輯</h2>
+      <p class="intro">查核人員規劃查核工作時，須透過風險評估程序了解受查者及其環境，據以評估重大不實表達風險（RMM），並決定可接受之偵查風險（DR）水準與證實程序之性質、時間及範圍。</p>
+
+      <div class="sop-box">
+        <h4>📌 查核風險組成要素與反向關係</h4>
+        <ul>
+          <li><strong>查核風險 (AR)</strong>：財務報表存在重大不實表達，而會計師未予察覺並做成不適當查核意見之風險（通常定為極低水準，如 5%）。</li>
+          <li><strong>重大不實表達風險 (RMM = IR × CR)</strong>：包含「固有風險（IR）」與「控制風險（CR）」，屬受查者既有風險，會計師僅能評估而無法改變。</li>
+          <li><strong>偵查風險 (DR)</strong>：查核人員執行證實程序後仍未能偵出重大不實表達之風險。當評估之 RMM 越高，可接受之 DR 越低，須執行更嚴格、樣本量更大之證實測試。</li>
+        </ul>
+      </div>
+
+      <div class="entry-box">
+        <div class="entry-title">📊 查核風險公式與重大性 (Materiality) 關係</div>
+        <div class="entry-content">【查核風險模型】
+AR ＝ RMM × DR ＝ (IR × CR) × DR   ➔   DR ＝ AR ÷ (IR × CR)
+
+【重大性水準與查核證據之關係】
+規劃重大性金額設定「越低」（標準越嚴格） ➔ 評估之重大不實表達風險 (RMM)「越高」 ➔ 可接受之偵查風險 (DR)「越低」 ➔ 所需蒐集之查核證據數量「越多」。</div>
+      </div>
+    </article>
+
+    <footer>
+      <p>會計學核心筆記與解題 SOP 知識庫 ｜ 遵循專案根目錄 <code>AGENTS.md</code> 規範建置與維護</p>
+    </footer>
+  </main>
+
+  <script>
+    const navLinks = document.querySelectorAll('.nav-link');
+    navLinks.forEach(link => {
+      link.addEventListener('click', function() {
+        navLinks.forEach(l => l.classList.remove('active'));
+        this.classList.add('active');
+      });
+    });
+
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const cards = document.querySelectorAll('.wiki-card');
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const category = btn.getAttribute('data-filter');
+        cards.forEach(card => {
+          card.style.display = (category === 'all' || card.getAttribute('data-category') === category) ? 'block' : 'none';
+        });
+      });
+    });
+
+    const searchInput = document.getElementById('searchInput');
+    searchInput.addEventListener('input', (e) => {
+      const keyword = e.target.value.toLowerCase().trim();
+      cards.forEach(card => {
+        card.style.display = card.innerText.toLowerCase().includes(keyword) ? 'block' : 'none';
+      });
+    });
+  </script>
+</body>
+</html>
